@@ -1,22 +1,37 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {Col} from 'antd'
-import {Searcher, PokemonCard} from './components'
+import {Searcher, PokemonCard} from './components';
+import {getPokemons} from './api'
 
 function App() {
-  //const [count, setCount] = useState(0)
+
+  const [pokemons, setPokemons] = useState([]);
+
+  const getData = async () => {
+    const data = await getPokemons();
+    setPokemons(data);
+  };
+
+  useEffect(() => {
+    
+    getData();
+
+    return console.log('Destruido')
+  }, [])
 
   return (
     <div className="container">
-      <h1>Pokedux</h1>
       <Col span={8} offset={8}>
         <Searcher />
       </Col>
-      <Col span={8}>
-        <PokemonCard />
-      </Col>
-      
+
+      <Col span={8} className='pokemons-container'>
+        <PokemonCard pokemons={pokemons} />
+      </Col>  
     </div>
   )
 }
+
+
 
 export default App

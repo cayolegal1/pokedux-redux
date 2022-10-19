@@ -1,1 +1,14 @@
 @import 'antd/dist/antd.css';
+
+.container {
+
+    margin: 4rem;
+}
+
+.pokemons-container {
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.35% 20%;
+    margin-top: 5%;
+}
