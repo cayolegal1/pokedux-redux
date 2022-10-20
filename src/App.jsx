@@ -1,25 +1,27 @@
-import { useEffect, useState } from 'react'
-import {Col} from 'antd'
+import { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import {Col} from 'antd';
 import {Searcher, PokemonCard} from './components';
-import {getPokemons} from './api'
+import {getPokemons} from './api';
+import { setPokemons as SetPokemonsMethod } from './actions';
 
-function App() {
+function App({pokemons, setPokemones}) {
 
-  const [pokemons, setPokemons] = useState([]);
+  //const [pokemons, setPokemones] = useState([]);
 
   const getData = async () => {
     const data = await getPokemons();
-    setPokemons(data);
+    setPokemones(data);
   };
 
   useEffect(() => {
     
     getData();
 
-    return console.log('Destruido')
   }, [])
 
   return (
+
     <div className="container">
       <Col span={8} offset={8}>
         <Searcher />
@@ -30,8 +32,19 @@ function App() {
       </Col>  
     </div>
   )
-}
+};
 
 
+const mapStateToProps = state => ({
 
-export default App
+  pokemons: state.pokemons
+
+});
+
+const mapDispatchToProps = dispatch => ({
+
+  setPokemones: (value) => dispatch(SetPokemonsMethod(value))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
